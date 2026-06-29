@@ -1,0 +1,59 @@
+name: Eczanem
+
+configFiles:
+  Debug: Configurations/Secrets.xcconfig
+  Release: Configurations/Secrets.xcconfig
+
+options:
+  bundleIdPrefix: com.benim
+  deploymentTarget:
+    iOS: "16.0"
+  xcodeVersion: "15.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    DEVELOPMENT_TEAM: "vyqq7w6w3u"
+
+packages:
+  Firebase:
+    url: https://github.com/firebase/firebase-ios-sdk
+    from: "10.29.0"
+  GoogleSignIn:
+    url: https://github.com/google/GoogleSignIn-iOS
+    from: "7.0.0"
+
+targets:
+  Eczanem:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - path: Eczanem
+    resources:
+      - path: Eczanem/Resources
+      - path: Eczanem/GoogleService-Info.plist
+    dependencies:
+      - package: Firebase
+        product: FirebaseAuth
+      - package: Firebase
+        product: FirebaseFirestore
+      - sdk: MapKit.framework
+      - sdk: CoreLocation.framework
+      - sdk: AuthenticationServices.framework
+      - sdk: CoreData.framework
+      - package: GoogleSignIn
+        product: GoogleSignIn
+      - package: GoogleSignIn
+        product: GoogleSignInSwift
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.benim.eczanem
+        INFOPLIST_FILE: Eczanem/Info.plist
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: NO
+    scheme: {}

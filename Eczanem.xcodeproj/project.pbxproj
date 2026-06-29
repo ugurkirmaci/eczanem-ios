@@ -1,0 +1,588 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		09783FF5D560BB89CBECEA60 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14F040BA981F9E09D964F0 /* SplashView.swift */; };
+		16725179E7B156BCBC71BB76 /* Eczanem.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A47681269B824FF6BC6C8493 /* Eczanem.xcdatamodeld */; };
+		1A636648DA0551BF120F864E /* AppErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2094399EBB493605F72324 /* AppErrors.swift */; };
+		1FB220A9D6C11ACAAA006519 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4310C9B8EB457578C47280 /* CoreData.framework */; };
+		238EFD7873CAE8352FA38314 /* PharmacyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60BE04B721083C244295626 /* PharmacyViewModel.swift */; };
+		23D8D21366405C7463967361 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69FD3CB365AFF16D1BF98FD /* MainTabView.swift */; };
+		260E5E45CCC83990B1B95A6C /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54EFFD43DFE52BECC40942D6 /* AuthenticationServices.framework */; };
+		268162C312AECB0E8F8DF2CE /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112C2CCB3DDF63B42CC57416 /* PersistenceController.swift */; };
+		2D683A1C1657595AA87B0411 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5CEF9D8736923C27FF708276 /* FirebaseAuth */; };
+		460280FAAFE85A5A718246FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BB4934220FCFA47CCEF1A2D /* Assets.xcassets */; };
+		50F8AD3B4CE14D22DB63A9C2 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3300B927410814958DE95CD3 /* MapKit.framework */; };
+		51802710A2D674B7146011B4 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D55265362BBD295E2B7466 /* AuthViewModel.swift */; };
+		628CA9C24DAEBA7ECB3B1C9E /* QuickLocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C59BFAB5E5C78C2CBBE966C /* QuickLocationsView.swift */; };
+		63535FBF41CC8B6DAC39C69D /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD990C14677FE6F5B0835C3B /* RegisterView.swift */; };
+		729D958BA251B39E405DDC7E /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAB35D1A3FC600A915C1694 /* ForgotPasswordView.swift */; };
+		74E92A4713B5DE3335247B12 /* QuickLocationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85B05C3F1025936570853A7 /* QuickLocationsService.swift */; };
+		766942A92E68C5BBD86EB0A8 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AD23D1C9D5A21D83A8EA8B /* LocationService.swift */; };
+		9A4DE1EEAD140939BE224A80 /* Pharmacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC656069C9E4E21454168D14 /* Pharmacy.swift */; };
+		9CF112F30AC9DA875211EBF5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39266304B4904D6515C37356 /* CoreLocation.framework */; };
+		B56B57F1C3090605BDC7888E /* EczanemApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8104FE9434AA21C26F39C1DF /* EczanemApp.swift */; };
+		B665AE06ECB52D306BA9B6CD /* PharmacyRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EB71EC65033502FA732BAD /* PharmacyRowView.swift */; };
+		BA666004CCC759940511EFC5 /* PharmacyMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A833D345F5281D7E2CF8867 /* PharmacyMapView.swift */; };
+		BCE8652152DA4AF4B64DA661 /* PharmacyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B1116A8B894FF2FEC79FEE /* PharmacyListView.swift */; };
+		C3085E70FB50A787F2234D84 /* PharmacyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860F0E9148C4E4829FDE4A6F /* PharmacyService.swift */; };
+		CB4BA5BB74CF93CDB16574AE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2A2D4ADF01231B8988B99D41 /* GoogleService-Info.plist */; };
+		D1076A3BDA3B1026061CF96B /* GoogleService-Info.plist.example in Resources */ = {isa = PBXBuildFile; fileRef = D6C5A73B3C7CED363A3D6885 /* GoogleService-Info.plist.example */; };
+		D7CCF32E3180816E2A3EE1FC /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 7D3A694F850F0DAA17FFA343 /* GoogleSignIn */; };
+		E4E7AAFCB12A4F3D3CFA608E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E6E9C780244F48E8C67277BC /* FirebaseFirestore */; };
+		F041B7AAC630A3B497C73B35 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA371E2FFA677521600F18A /* LoginView.swift */; };
+		F5E954E5F8912F6F0D18CDE0 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 718AE1D4FF58BAFAC93EA014 /* GoogleSignInSwift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		112C2CCB3DDF63B42CC57416 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		11AD23D1C9D5A21D83A8EA8B /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		1FAB35D1A3FC600A915C1694 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
+		2A2D4ADF01231B8988B99D41 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3300B927410814958DE95CD3 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		39266304B4904D6515C37356 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		3BB4934220FCFA47CCEF1A2D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5162D3A2C835D4E6BE3D51A0 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		54EFFD43DFE52BECC40942D6 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
+		5C59BFAB5E5C78C2CBBE966C /* QuickLocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickLocationsView.swift; sourceTree = "<group>"; };
+		64410516582D8251D8040E1A /* Eczanem.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Eczanem.xcdatamodel; sourceTree = "<group>"; };
+		7B3D5595B564C2080C1FA351 /* Eczanem.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Eczanem.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8104FE9434AA21C26F39C1DF /* EczanemApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EczanemApp.swift; sourceTree = "<group>"; };
+		860F0E9148C4E4829FDE4A6F /* PharmacyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PharmacyService.swift; sourceTree = "<group>"; };
+		86D55265362BBD295E2B7466 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		8A2094399EBB493605F72324 /* AppErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppErrors.swift; sourceTree = "<group>"; };
+		8F4310C9B8EB457578C47280 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		91B1116A8B894FF2FEC79FEE /* PharmacyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PharmacyListView.swift; sourceTree = "<group>"; };
+		9A833D345F5281D7E2CF8867 /* PharmacyMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PharmacyMapView.swift; sourceTree = "<group>"; };
+		A69FD3CB365AFF16D1BF98FD /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		B85B05C3F1025936570853A7 /* QuickLocationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickLocationsService.swift; sourceTree = "<group>"; };
+		BC14F040BA981F9E09D964F0 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		C3EB71EC65033502FA732BAD /* PharmacyRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PharmacyRowView.swift; sourceTree = "<group>"; };
+		D0790C317301A0E555522F45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D6C5A73B3C7CED363A3D6885 /* GoogleService-Info.plist.example */ = {isa = PBXFileReference; path = "GoogleService-Info.plist.example"; sourceTree = "<group>"; };
+		DD990C14677FE6F5B0835C3B /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		EC656069C9E4E21454168D14 /* Pharmacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pharmacy.swift; sourceTree = "<group>"; };
+		F60BE04B721083C244295626 /* PharmacyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PharmacyViewModel.swift; sourceTree = "<group>"; };
+		FFA371E2FFA677521600F18A /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CDFD6F36DDD637E6A2245AE4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D683A1C1657595AA87B0411 /* FirebaseAuth in Frameworks */,
+				E4E7AAFCB12A4F3D3CFA608E /* FirebaseFirestore in Frameworks */,
+				50F8AD3B4CE14D22DB63A9C2 /* MapKit.framework in Frameworks */,
+				9CF112F30AC9DA875211EBF5 /* CoreLocation.framework in Frameworks */,
+				260E5E45CCC83990B1B95A6C /* AuthenticationServices.framework in Frameworks */,
+				1FB220A9D6C11ACAAA006519 /* CoreData.framework in Frameworks */,
+				D7CCF32E3180816E2A3EE1FC /* GoogleSignIn in Frameworks */,
+				F5E954E5F8912F6F0D18CDE0 /* GoogleSignInSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		03E3E0BE8B9041A0E0F897AE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CBADC07CF8A6EAEA53FFE628 /* Auth */,
+				E853D6EF4970E4F82EFA8E50 /* Pharmacy */,
+				A69FD3CB365AFF16D1BF98FD /* MainTabView.swift */,
+				5C59BFAB5E5C78C2CBBE966C /* QuickLocationsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		138D49DAB67DA0F8077A8D6A /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				86D55265362BBD295E2B7466 /* AuthViewModel.swift */,
+				F60BE04B721083C244295626 /* PharmacyViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		49C4085AF364A8C3241494A2 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				8104FE9434AA21C26F39C1DF /* EczanemApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		49D948467B197FBFC6D27940 /* Eczanem */ = {
+			isa = PBXGroup;
+			children = (
+				49C4085AF364A8C3241494A2 /* App */,
+				D59C64E9FEF86309AE6CF429 /* Core */,
+				A8C55AF2F56387BC17F47F8C /* Models */,
+				F550C96695E95E388EB1D4DE /* Resources */,
+				62765494B347A70314DCC2AE /* Services */,
+				138D49DAB67DA0F8077A8D6A /* ViewModels */,
+				03E3E0BE8B9041A0E0F897AE /* Views */,
+				2A2D4ADF01231B8988B99D41 /* GoogleService-Info.plist */,
+				D6C5A73B3C7CED363A3D6885 /* GoogleService-Info.plist.example */,
+				D0790C317301A0E555522F45 /* Info.plist */,
+			);
+			path = Eczanem;
+			sourceTree = "<group>";
+		};
+		62765494B347A70314DCC2AE /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				11AD23D1C9D5A21D83A8EA8B /* LocationService.swift */,
+				860F0E9148C4E4829FDE4A6F /* PharmacyService.swift */,
+				B85B05C3F1025936570853A7 /* QuickLocationsService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		68059F4BFECF134FEB7C6E47 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				5162D3A2C835D4E6BE3D51A0 /* Secrets.xcconfig */,
+			);
+			path = Configurations;
+			sourceTree = "<group>";
+		};
+		865D54D2920955AE81949958 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7B3D5595B564C2080C1FA351 /* Eczanem.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9E38675A2DDF9BEBF90D10A7 = {
+			isa = PBXGroup;
+			children = (
+				68059F4BFECF134FEB7C6E47 /* Configurations */,
+				49D948467B197FBFC6D27940 /* Eczanem */,
+				E64F7E9AD804E5C2BAEF78C8 /* Frameworks */,
+				865D54D2920955AE81949958 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A8C55AF2F56387BC17F47F8C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8A2094399EBB493605F72324 /* AppErrors.swift */,
+				EC656069C9E4E21454168D14 /* Pharmacy.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CBADC07CF8A6EAEA53FFE628 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				1FAB35D1A3FC600A915C1694 /* ForgotPasswordView.swift */,
+				FFA371E2FFA677521600F18A /* LoginView.swift */,
+				DD990C14677FE6F5B0835C3B /* RegisterView.swift */,
+				BC14F040BA981F9E09D964F0 /* SplashView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		D245ED104F23D9CE24C6E346 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				A47681269B824FF6BC6C8493 /* Eczanem.xcdatamodeld */,
+				112C2CCB3DDF63B42CC57416 /* PersistenceController.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		D59C64E9FEF86309AE6CF429 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				D245ED104F23D9CE24C6E346 /* Persistence */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		E64F7E9AD804E5C2BAEF78C8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				54EFFD43DFE52BECC40942D6 /* AuthenticationServices.framework */,
+				8F4310C9B8EB457578C47280 /* CoreData.framework */,
+				39266304B4904D6515C37356 /* CoreLocation.framework */,
+				3300B927410814958DE95CD3 /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E853D6EF4970E4F82EFA8E50 /* Pharmacy */ = {
+			isa = PBXGroup;
+			children = (
+				91B1116A8B894FF2FEC79FEE /* PharmacyListView.swift */,
+				9A833D345F5281D7E2CF8867 /* PharmacyMapView.swift */,
+				C3EB71EC65033502FA732BAD /* PharmacyRowView.swift */,
+			);
+			path = Pharmacy;
+			sourceTree = "<group>";
+		};
+		F550C96695E95E388EB1D4DE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3BB4934220FCFA47CCEF1A2D /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3ADCEF27320F560AEDEBD6BE /* Eczanem */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3B89F31D53C3CE0EA1B8D987 /* Build configuration list for PBXNativeTarget "Eczanem" */;
+			buildPhases = (
+				339D02E1B8A0255164D94AFD /* Sources */,
+				A9B30FE38E1FBE88C2E4579A /* Resources */,
+				CDFD6F36DDD637E6A2245AE4 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Eczanem;
+			packageProductDependencies = (
+				5CEF9D8736923C27FF708276 /* FirebaseAuth */,
+				E6E9C780244F48E8C67277BC /* FirebaseFirestore */,
+				7D3A694F850F0DAA17FFA343 /* GoogleSignIn */,
+				718AE1D4FF58BAFAC93EA014 /* GoogleSignInSwift */,
+			);
+			productName = Eczanem;
+			productReference = 7B3D5595B564C2080C1FA351 /* Eczanem.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		33E681F4918AAA449A9D5C44 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					3ADCEF27320F560AEDEBD6BE = {
+						DevelopmentTeam = vyqq7w6w3u;
+					};
+				};
+			};
+			buildConfigurationList = 17ED30B6BA8164EB8694152E /* Build configuration list for PBXProject "Eczanem" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 9E38675A2DDF9BEBF90D10A7;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C6D77B5045A67B6CBC4246BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				63117DE50AF12C3DB042AF43 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3ADCEF27320F560AEDEBD6BE /* Eczanem */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A9B30FE38E1FBE88C2E4579A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				460280FAAFE85A5A718246FE /* Assets.xcassets in Resources */,
+				CB4BA5BB74CF93CDB16574AE /* GoogleService-Info.plist in Resources */,
+				D1076A3BDA3B1026061CF96B /* GoogleService-Info.plist.example in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		339D02E1B8A0255164D94AFD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A636648DA0551BF120F864E /* AppErrors.swift in Sources */,
+				51802710A2D674B7146011B4 /* AuthViewModel.swift in Sources */,
+				16725179E7B156BCBC71BB76 /* Eczanem.xcdatamodeld in Sources */,
+				B56B57F1C3090605BDC7888E /* EczanemApp.swift in Sources */,
+				729D958BA251B39E405DDC7E /* ForgotPasswordView.swift in Sources */,
+				766942A92E68C5BBD86EB0A8 /* LocationService.swift in Sources */,
+				F041B7AAC630A3B497C73B35 /* LoginView.swift in Sources */,
+				23D8D21366405C7463967361 /* MainTabView.swift in Sources */,
+				268162C312AECB0E8F8DF2CE /* PersistenceController.swift in Sources */,
+				9A4DE1EEAD140939BE224A80 /* Pharmacy.swift in Sources */,
+				BCE8652152DA4AF4B64DA661 /* PharmacyListView.swift in Sources */,
+				BA666004CCC759940511EFC5 /* PharmacyMapView.swift in Sources */,
+				B665AE06ECB52D306BA9B6CD /* PharmacyRowView.swift in Sources */,
+				C3085E70FB50A787F2234D84 /* PharmacyService.swift in Sources */,
+				238EFD7873CAE8352FA38314 /* PharmacyViewModel.swift in Sources */,
+				74E92A4713B5DE3335247B12 /* QuickLocationsService.swift in Sources */,
+				628CA9C24DAEBA7ECB3B1C9E /* QuickLocationsView.swift in Sources */,
+				63535FBF41CC8B6DAC39C69D /* RegisterView.swift in Sources */,
+				09783FF5D560BB89CBECEA60 /* SplashView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		512925B55EA808DE699E27F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5162D3A2C835D4E6BE3D51A0 /* Secrets.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = vyqq7w6w3u;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		91F0F9F6C390619169AB19FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Eczanem/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.benim.eczanem;
+				SDKROOT = iphoneos;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		D721694DA286C92DE0685F73 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5162D3A2C835D4E6BE3D51A0 /* Secrets.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = vyqq7w6w3u;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		E053503A36F53338020B8A36 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Eczanem/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.benim.eczanem;
+				SDKROOT = iphoneos;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		17ED30B6BA8164EB8694152E /* Build configuration list for PBXProject "Eczanem" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				512925B55EA808DE699E27F9 /* Debug */,
+				D721694DA286C92DE0685F73 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3B89F31D53C3CE0EA1B8D987 /* Build configuration list for PBXNativeTarget "Eczanem" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E053503A36F53338020B8A36 /* Debug */,
+				91F0F9F6C390619169AB19FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		63117DE50AF12C3DB042AF43 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+		C6D77B5045A67B6CBC4246BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.29.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5CEF9D8736923C27FF708276 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C6D77B5045A67B6CBC4246BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		718AE1D4FF58BAFAC93EA014 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63117DE50AF12C3DB042AF43 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+		7D3A694F850F0DAA17FFA343 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63117DE50AF12C3DB042AF43 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		E6E9C780244F48E8C67277BC /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C6D77B5045A67B6CBC4246BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		A47681269B824FF6BC6C8493 /* Eczanem.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				64410516582D8251D8040E1A /* Eczanem.xcdatamodel */,
+			);
+			currentVersion = 64410516582D8251D8040E1A /* Eczanem.xcdatamodel */;
+			path = Eczanem.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 33E681F4918AAA449A9D5C44 /* Project object */;
+}

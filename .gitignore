@@ -1,0 +1,80 @@
+# ================================================================
+# 🔐 SENSITIVE — Bu dosyalar asla commit edilmez
+# ================================================================
+
+# Firebase yapılandırması (API key, client ID, project ID içerir)
+Eczanem/GoogleService-Info.plist
+
+# Gizli yapılandırma (CollectAPI key içerir)
+Configurations/Secrets.xcconfig
+
+
+# ================================================================
+# Xcode
+# ================================================================
+
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.xccheckout
+*.moved-to-trash
+*.xcuserstate
+*.xcscmblueprint
+*.xcscheme
+
+# Derived Data ve Archiveler
+DerivedData/
+*.hmap
+*.ipa
+*.xcarchive
+
+# Xcode workspace user data
+*.xcworkspace/xcuserdata/
+*.xcworkspace/xcheckout
+
+
+# ================================================================
+# Swift Package Manager
+# ================================================================
+
+.build/
+# Package.resolved intentionally NOT ignored (reproducible builds)
+
+
+# ================================================================
+# CocoaPods (kullanılmıyor, yine de)
+# ================================================================
+
+Pods/
+Podfile.lock
+
+
+# ================================================================
+# macOS
+# ================================================================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+
+# ================================================================
+# Çeşitli
+# ================================================================
+
+*.swp
+*.swo
+*~
+.idea/
+*.log
