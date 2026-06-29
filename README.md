@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/screenshots/app-icon.png" width="120" alt="Eczanem App Icon" />
+  <img src="docs/screenshots/list.png" width="120" alt="Eczanem App Icon" />
 </p>
 
 <h1 align="center">Eczanem 💊</h1>
@@ -21,13 +21,12 @@
 ## 📱 Ekran Görüntüleri
 
 <p align="center">
-  <img src="docs/screenshots/list.png" width="200" />
-  <img src="docs/screenshots/map.png" width="200" />
-  <img src="docs/screenshots/quick-access.png" width="200" />
-  <img src="docs/screenshots/login.png" width="200" />
+  <img src="docs/screenshots/login.png" width="180" alt="Login" />
+  <img src="docs/screenshots/list.png" width="180" alt="Pharmacy List" />
+  <img src="docs/screenshots/map.png" width="180" alt="Map" />
+  <img src="docs/screenshots/quick-access.png" width="180" alt="Quick Access" />
+  <img src="docs/screenshots/profile.png" width="180" alt="Profile" />
 </p>
-
-> _Ekran görüntülerini `docs/screenshots/` klasörüne ekleyin._
 
 ---
 

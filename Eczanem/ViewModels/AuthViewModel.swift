@@ -102,6 +102,7 @@ final class AuthViewModel: ObservableObject {
 
     // MARK: - Google Sign In
 
+    @MainActor
     func signInWithGoogle() async {
         guard let clientID = FirebaseApp.app()?.options.clientID else {
             await setError("Google yapılandırması bulunamadı.")
@@ -114,14 +115,12 @@ final class AuthViewModel: ObservableObject {
         await setLoading(true)
 
         do {
-            // Access the key window via MainActor
-            let rootVC = await MainActor.run { () -> UIViewController? in
-                UIApplication.shared.connectedScenes
-                    .compactMap { $0 as? UIWindowScene }
-                    .flatMap { $0.windows }
-                    .first { $0.isKeyWindow }?
-                    .rootViewController
-            }
+            // Already on MainActor — access key window directly
+            let rootVC = UIApplication.shared.connectedScenes
+                .compactMap { $0 as? UIWindowScene }
+                .flatMap { $0.windows }
+                .first { $0.isKeyWindow }?
+                .rootViewController
 
             guard let rootVC else {
                 await setError("Ekran açılamadı. Tekrar deneyin.")

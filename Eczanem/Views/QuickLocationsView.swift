@@ -218,10 +218,8 @@ struct QuickLocationsView: View {
         isLocating = true
         Task {
             await viewModel.loadWithUserLocation()
-            await MainActor.run {
-                isLocating = false
-                withAnimation { selectedTab = 0 }
-            }
+            isLocating = false
+            withAnimation { selectedTab = 0 }
         }
     }
 

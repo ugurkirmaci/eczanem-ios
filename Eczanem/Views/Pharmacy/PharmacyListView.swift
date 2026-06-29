@@ -123,7 +123,7 @@ struct PharmacyListView: View {
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
-            Button { Task { viewModel.loadWithUserLocation() } } label: {
+            Button { Task { await viewModel.loadWithUserLocation() } } label: {
                 Image(systemName: "location.fill")
                     .foregroundColor(Color("AppGreen"))
             }

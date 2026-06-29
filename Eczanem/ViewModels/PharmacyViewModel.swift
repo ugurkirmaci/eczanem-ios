@@ -137,20 +137,17 @@ final class PharmacyViewModel: ObservableObject {
 
     // MARK: - GPS-based Auto Load
 
-    func loadWithUserLocation() {
-        Task {
-            await locationService.requestLocationAndResolve()
-            await MainActor.run {
-                if let city = locationService.currentCity, !city.isEmpty {
-                    self.selectedCity = city
-                }
-                if let district = locationService.currentDistrict, !district.isEmpty {
-                    self.selectedDistrict = district
-                }
-                // Store raw location for distance sorting
-                self.userLocation = locationService.currentLocation
-            }
-            await loadPharmacies()
+    @MainActor
+    func loadWithUserLocation() async {
+        await locationService.requestLocationAndResolve()
+        if let city = locationService.currentCity, !city.isEmpty {
+            selectedCity = city
         }
+        if let district = locationService.currentDistrict, !district.isEmpty {
+            selectedDistrict = district
+        }
+        // Store raw location for distance sorting
+        userLocation = locationService.currentLocation
+        await loadPharmacies()
     }
 }
