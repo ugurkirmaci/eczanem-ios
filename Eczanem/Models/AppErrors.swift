@@ -6,10 +6,10 @@ enum PharmacyError: LocalizedError {
 
     case invalidURL
     case networkError(Error)
-    case invalidResponse(Int)   // HTTP status code ile birlikte
+    case invalidResponse(Int)   // includes HTTP status code
     case decodingError(Error)
     case noData
-    case apiFailure             // success: false döndüğünde
+    case apiFailure             // API returned success: false
 
     var errorDescription: String? {
         switch self {
@@ -32,7 +32,7 @@ enum PharmacyError: LocalizedError {
     }
 }
 
-// MARK: - Auth Errors (Türkçe açıklamalar)
+// MARK: - Auth Errors
 
 enum AuthError: LocalizedError {
 
@@ -41,22 +41,14 @@ enum AuthError: LocalizedError {
     case şifrelerEşleşmiyor
     case şifreKısa
     case geçersizEmail
-    case firebaseError(String)
 
     var errorDescription: String? {
         switch self {
-        case .emailBoş:
-            return "E-posta adresi boş olamaz."
-        case .şifreBoş:
-            return "Şifre boş olamaz."
-        case .şifrelerEşleşmiyor:
-            return "Şifreler birbiriyle uyuşmuyor."
-        case .şifreKısa:
-            return "Şifre en az 6 karakter olmalıdır."
-        case .geçersizEmail:
-            return "Geçerli bir e-posta adresi girin."
-        case .firebaseError(let mesaj):
-            return mesaj
+        case .emailBoş:             return "E-posta adresi boş olamaz."
+        case .şifreBoş:             return "Şifre boş olamaz."
+        case .şifrelerEşleşmiyor:   return "Şifreler birbiriyle uyuşmuyor."
+        case .şifreKısa:            return "Şifre en az 6 karakter olmalıdır."
+        case .geçersizEmail:        return "Geçerli bir e-posta adresi girin."
         }
     }
 }

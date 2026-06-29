@@ -6,7 +6,7 @@ import Combine
 struct SavedLocation: Codable, Identifiable, Hashable {
     var id = UUID()
     let city: String
-    let district: String      // "" ise tüm ilçeler
+    let district: String      // empty string means whole province
 
     var displayName: String {
         district.isEmpty ? city : "\(city) · \(district)"
@@ -14,8 +14,8 @@ struct SavedLocation: Codable, Identifiable, Hashable {
 }
 
 // MARK: - QuickLocationsService
-/// Kullanıcının hızlı erişim için kaydettiği şehir/ilçe çiftlerini
-/// UserDefaults'ta saklar. Core Data gerektirmez.
+// Persists user-saved city/district shortcuts in UserDefaults.
+// No Core Data dependency required.
 
 final class QuickLocationsService: ObservableObject {
 
@@ -23,24 +23,24 @@ final class QuickLocationsService: ObservableObject {
 
     @Published private(set) var locations: [SavedLocation] = []
 
-    private let key = "quick_locations_v1"
+    private let storageKey = "quick_locations_v1"
 
     private init() {
         load()
     }
 
-    // MARK: - Kaydet
+    // MARK: - Save
 
     func save(city: String, district: String) {
         let new = SavedLocation(city: city, district: district)
-        // Aynı çift zaten varsa ekleme
+        // Skip duplicates
         guard !locations.contains(where: { $0.city == city && $0.district == district }) else { return }
-        locations.insert(new, at: 0)            // en sone eklenen başa gelsin
+        locations.insert(new, at: 0)            // newest entry first
         if locations.count > 10 { locations = Array(locations.prefix(10)) }
         persist()
     }
 
-    // MARK: - Sil
+    // MARK: - Delete
 
     func delete(_ location: SavedLocation) {
         locations.removeAll { $0.id == location.id }
@@ -52,16 +52,16 @@ final class QuickLocationsService: ObservableObject {
         persist()
     }
 
-    // MARK: - Kalıcılık
+    // MARK: - Persistence
 
     private func persist() {
         if let data = try? JSONEncoder().encode(locations) {
-            UserDefaults.standard.set(data, forKey: key)
+            UserDefaults.standard.set(data, forKey: storageKey)
         }
     }
 
     private func load() {
-        guard let data = UserDefaults.standard.data(forKey: key),
+        guard let data = UserDefaults.standard.data(forKey: storageKey),
               let saved = try? JSONDecoder().decode([SavedLocation].self, from: data)
         else { return }
         locations = saved

@@ -1,16 +1,16 @@
 import CoreData
 
 // MARK: - PersistenceController
-/// Core Data stack'ini başlatır ve yönetir.
+// Sets up and manages the Core Data stack.
 
 struct PersistenceController {
 
     static let shared = PersistenceController()
 
-    // Preview için in-memory store
+    // In-memory store for SwiftUI previews
     static var preview: PersistenceController = {
         let controller = PersistenceController(inMemory: true)
-        // Preview verisi ekle
+        // Seed preview data
         let context = controller.container.viewContext
         let sample = FavoritePharmacy(context: context)
         sample.id = UUID()
@@ -35,8 +35,8 @@ struct PersistenceController {
 
         container.loadPersistentStores { _, error in
             if let error = error as NSError? {
-                // Production'da crash yerine log
-                print("⛔ Core Data yüklenemedi: \(error), \(error.userInfo)")
+                // Log instead of crash in production
+                print("⛔ Core Data failed to load: \(error), \(error.userInfo)")
             }
         }
 

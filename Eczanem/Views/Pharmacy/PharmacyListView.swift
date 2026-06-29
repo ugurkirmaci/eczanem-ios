@@ -34,7 +34,7 @@ struct PharmacyListView: View {
         }
     }
 
-    // MARK: - Liste
+    // MARK: - List
 
     private var pharmacyList: some View {
         List {
@@ -66,7 +66,7 @@ struct PharmacyListView: View {
             .padding(.bottom, 8)
     }
 
-    // MARK: - Durum Görünümleri
+    // MARK: - State Views
 
     private var loadingView: some View {
         VStack(spacing: 16) {
@@ -130,7 +130,7 @@ struct PharmacyListView: View {
         }
         ToolbarItem(placement: .navigationBarTrailing) {
             HStack(spacing: 8) {
-                // İl Seçici
+                // Province picker
                 Button {
                     showCityPicker = true
                 } label: {
@@ -140,7 +140,7 @@ struct PharmacyListView: View {
                         .foregroundColor(Color("AppGreen"))
                 }
 
-                // İlçe Seçici
+                // District picker
                 if !viewModel.availableDistricts.isEmpty {
                     Button {
                         showDistrictPicker = true
@@ -158,7 +158,7 @@ struct PharmacyListView: View {
         }
     }
 
-    // MARK: - İl Seçici Sheet
+    // MARK: - Province Picker Sheet
 
     private var cityPickerSheet: some View {
         NavigationStack {
@@ -190,7 +190,7 @@ struct PharmacyListView: View {
         }
     }
 
-    // MARK: - İlçe Seçici Sheet
+    // MARK: - District Picker Sheet
 
     private var districtPickerSheet: some View {
         NavigationStack {

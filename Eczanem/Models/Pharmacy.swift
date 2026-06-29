@@ -1,7 +1,7 @@
 import Foundation
 import MapKit
 
-// MARK: - API Response
+// MARK: - API Response Models
 
 struct PharmacyResponse: Decodable {
     let success: Bool
@@ -25,15 +25,15 @@ struct Pharmacy: Identifiable, Decodable, Hashable {
     let dist: String
     let address: String
     let phone: String
-    let loc: String        // "lat,lng" formatında string
+    let loc: String        // "lat,lng" string from API
 
     enum CodingKeys: String, CodingKey {
         case name, dist, address, phone, loc
     }
 
-    // MARK: - Koordinat hesaplama
+    // MARK: - Coordinate
 
-    /// loc string'ini ("39.92,32.84") parse ederek CLLocationCoordinate2D döndürür
+    /// Parses the "lat,lng" loc string into a CLLocationCoordinate2D.
     var coordinate: CLLocationCoordinate2D? {
         let parts = loc.split(separator: ",")
         guard parts.count == 2,
@@ -43,7 +43,7 @@ struct Pharmacy: Identifiable, Decodable, Hashable {
         return CLLocationCoordinate2D(latitude: lat, longitude: lng)
     }
 
-    /// MapKit için harita noktası
+    /// MKMapItem representation for use with MapKit.
     var mapItem: MKMapItem? {
         guard let coord = coordinate else { return nil }
         let placemark = MKPlacemark(coordinate: coord)
@@ -53,7 +53,7 @@ struct Pharmacy: Identifiable, Decodable, Hashable {
         return item
     }
 
-    // MARK: - Hashable (Equatable içerir)
+    // MARK: - Hashable
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
@@ -68,9 +68,9 @@ struct Pharmacy: Identifiable, Decodable, Hashable {
     }
 }
 
-// MARK: - Turkey Cities
+// MARK: - Turkey Provinces
 
-/// Türkiye'nin 81 ili — alfabetik sıralı
+/// All 81 Turkish provinces in alphabetical order.
 let turkeyProvinces: [String] = [
     "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya",
     "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir",
@@ -78,7 +78,7 @@ let turkeyProvinces: [String] = [
     "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli",
     "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum",
     "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari",
-    "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir",
+    "Hatay", "Isparta", "İçel", "İstanbul", "İzmir",
     "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir",
     "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa",
     "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir",

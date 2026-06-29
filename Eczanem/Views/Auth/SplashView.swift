@@ -1,7 +1,8 @@
 import SwiftUI
 
 // MARK: - SplashView
-/// Uygulama açılışında oturum kontrolü yapar ve yönlendirir.
+// Shown on launch. Waits briefly then routes to LoginView or MainTabView
+// based on the current authentication state.
 
 struct SplashView: View {
 
@@ -29,7 +30,7 @@ struct SplashView: View {
         }
     }
 
-    // MARK: - Launch Ekranı
+    // MARK: - Launch Screen
 
     private var launchScreen: some View {
         ZStack {

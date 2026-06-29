@@ -2,8 +2,8 @@ import Foundation
 import CoreLocation
 
 // MARK: - LocationService
-/// Kullanıcının GPS konumunu alır ve
-/// şehir / ilçe bilgisine çevirir (reverse geocoding).
+// Requests the user's GPS position and resolves it to a city/district
+// pair via reverse geocoding.
 
 final class LocationService: NSObject, ObservableObject {
 
@@ -11,7 +11,7 @@ final class LocationService: NSObject, ObservableObject {
 
     @Published var currentCity: String?
     @Published var currentDistrict: String?
-    @Published var currentLocation: CLLocation?   // ham GPS verisi — mesafe hesabı için
+    @Published var currentLocation: CLLocation?   // raw GPS fix for distance calculation
     @Published var isLocating = false
     @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
     @Published var locationError: String?
@@ -21,18 +21,19 @@ final class LocationService: NSObject, ObservableObject {
     private let manager = CLLocationManager()
     private let geocoder = CLGeocoder()
     private var locationContinuation: CheckedContinuation<CLLocation, Error>?
-    private var authContinuation: CheckedContinuation<Void, Error>?   // izin bekleme
+    private var authContinuation: CheckedContinuation<Void, Error>?   // waits for permission dialog
 
     override init() {
         super.init()
         manager.delegate = self
-        manager.desiredAccuracy = kCLLocationAccuracyKilometer   // eczane için km yeterli
+        manager.desiredAccuracy = kCLLocationAccuracyKilometer   // kilometre precision is sufficient for pharmacy lookup
         authorizationStatus = manager.authorizationStatus
     }
 
     // MARK: - Public API
 
-    /// İzin iste ve konumu al — async/await ile çağrılır
+    /// Requests permission (if needed), obtains a GPS fix, and reverse-geocodes
+    /// the result into city/district strings. Must be called with await.
     func requestLocationAndResolve() async {
         await MainActor.run { isLocating = true; locationError = nil }
 
@@ -57,23 +58,25 @@ final class LocationService: NSObject, ObservableObject {
     // MARK: - Private Helpers
 
     private func requestLocation() async throws -> CLLocation {
-        // 1. İzin durumunu kontrol et
+        // Step 1: Handle authorization
         switch manager.authorizationStatus {
         case .notDetermined:
-            // İzni iste ve cevabı bekle (delegate üzerinden)
+            // Request permission and suspend until the delegate fires
             try await withCheckedThrowingContinuation { (cont: CheckedContinuation<Void, Error>) in
                 self.authContinuation = cont
                 self.manager.requestWhenInUseAuthorization()
             }
         case .denied, .restricted:
-            throw NSError(domain: "LocationService",
-                          code: 1,
-                          userInfo: [NSLocalizedDescriptionKey: "Konum izni reddedildi. Ayarlar > Eczanem > Konum bölümünden etkinleştirin."])
+            throw NSError(
+                domain: "LocationService",
+                code: 1,
+                userInfo: [NSLocalizedDescriptionKey: "Konum izni reddedildi. Ayarlar > Eczanem > Konum bölümünden etkinleştirin."]
+            )
         default:
-            break   // authorizedWhenInUse veya authorizedAlways → devam et
+            break   // authorizedWhenInUse / authorizedAlways — proceed
         }
 
-        // 2. İzin var, konumu iste
+        // Step 2: Permission granted — request a single GPS fix
         return try await withCheckedThrowingContinuation { continuation in
             self.locationContinuation = continuation
             self.manager.requestLocation()
@@ -87,8 +90,8 @@ final class LocationService: NSObject, ObservableObject {
             throw NSError(domain: "Geocoder", code: 0, userInfo: [NSLocalizedDescriptionKey: "Adres bulunamadı"])
         }
 
-        // administrativeArea → İl (örn: "Ankara")
-        // subAdministrativeArea veya locality → İlçe
+        // administrativeArea  → Province  (e.g. "Ankara")
+        // subLocality / locality → District
         let city = placemark.administrativeArea ?? ""
         let district = placemark.subLocality ?? placemark.locality ?? ""
 
@@ -118,12 +121,13 @@ extension LocationService: CLLocationManagerDelegate {
 
         switch manager.authorizationStatus {
         case .authorizedWhenInUse, .authorizedAlways:
-            // İzin verildi — authContinuation'ı çöz (requestLocation'daki await bitsin)
+            // Permission granted — resume the auth continuation so requestLocation() proceeds
             authContinuation?.resume(returning: ())
             authContinuation = nil
         case .denied, .restricted:
             authContinuation?.resume(throwing: NSError(
-                domain: "LocationService", code: 1,
+                domain: "LocationService",
+                code: 1,
                 userInfo: [NSLocalizedDescriptionKey: "Konum izni reddedildi."]
             ))
             authContinuation = nil

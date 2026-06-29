@@ -17,7 +17,7 @@ struct LoginView: View {
             ScrollView {
                 VStack(spacing: 24) {
 
-                    // Logo
+                    // Logo / branding
                     VStack(spacing: 8) {
                         Image(systemName: "cross.case.fill")
                             .resizable()
@@ -34,7 +34,7 @@ struct LoginView: View {
                     }
                     .padding(.top, 40)
 
-                    // Apple ile Giriş
+                    // Apple Sign In
                     SignInWithAppleButton(.signIn) { request in
                         request.requestedScopes = [.fullName, .email]
                         request.nonce = authViewModel.prepareAppleSignIn()
@@ -45,19 +45,19 @@ struct LoginView: View {
                                 Task { await authViewModel.signInWithApple(credential: credential) }
                             }
                         case .failure(let error):
-                            print("Apple giriş hatası: \(error)")
+                            print("Apple sign-in error: \(error)")
                         }
                     }
                     .signInWithAppleButtonStyle(.black)
                     .frame(height: 50)
                     .cornerRadius(12)
 
-                    // Google ile Giriş
+                    // Google Sign In
                     Button {
                         Task { await authViewModel.signInWithGoogle() }
                     } label: {
                         HStack(spacing: 10) {
-                            // Google "G" renk bloğu
+                            // Google "G" colour block
                             ZStack {
                                 Circle()
                                     .fill(Color.white)
@@ -87,21 +87,20 @@ struct LoginView: View {
                     }
                     .disabled(authViewModel.isLoading)
 
-                    // Ayırıcı
+                    // Divider
                     HStack {
                         Rectangle().frame(height: 1).foregroundColor(.secondary.opacity(0.3))
                         Text("veya").font(.caption).foregroundColor(.secondary)
                         Rectangle().frame(height: 1).foregroundColor(.secondary.opacity(0.3))
                     }
 
-                    // Email / Şifre
+                    // Email / Password fields
                     VStack(spacing: 12) {
                         EczaTextField(title: "E-posta", text: $email,
                                       icon: "envelope", keyboardType: .emailAddress)
 
                         EczaSecureField(title: "Şifre", text: $password, icon: "lock")
 
-                        // Şifremi Unuttum
                         HStack {
                             Spacer()
                             Button("Şifremi unuttum") { showForgotPassword = true }
@@ -110,7 +109,7 @@ struct LoginView: View {
                         }
                     }
 
-                    // Hata mesajı
+                    // Validation error
                     if let error = authViewModel.errorMessage {
                         Text(error)
                             .font(.caption)
@@ -119,7 +118,7 @@ struct LoginView: View {
                             .padding(.horizontal)
                     }
 
-                    // Giriş Butonu
+                    // Sign In button
                     Button {
                         Task { await authViewModel.signIn(email: email, password: password) }
                     } label: {
@@ -138,7 +137,7 @@ struct LoginView: View {
                     }
                     .disabled(authViewModel.isLoading)
 
-                    // Kayıt ol
+                    // Register link
                     Button {
                         showRegister = true
                     } label: {
@@ -160,7 +159,7 @@ struct LoginView: View {
     }
 }
 
-// MARK: - Yeniden Kullanılabilir TextField Bileşenleri
+// MARK: - Reusable Input Components
 
 struct EczaTextField: View {
     let title: String

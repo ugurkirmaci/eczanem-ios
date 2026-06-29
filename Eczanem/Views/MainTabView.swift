@@ -1,34 +1,30 @@
 import SwiftUI
 
 // MARK: - MainTabView
-/// Giriş yapılmış kullanıcılar için ana tab navigasyonu.
-/// PharmacyViewModel tek yerde oluşturulur ve her tab'a aktarılır.
+// Root tab navigation for authenticated users.
+// PharmacyViewModel is created once here and shared across all tabs.
 
 struct MainTabView: View {
 
     @EnvironmentObject var authViewModel: AuthViewModel
     @StateObject private var pharmacyViewModel = PharmacyViewModel()
-    @State private var showProfileSheet = false
-    @State private var selectedTab = 0      // tab geçişini yönetir
+    @State private var selectedTab = 0
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            // MARK: Tab 1 — Liste
+
             PharmacyListView(viewModel: pharmacyViewModel)
                 .tabItem { Label("Eczaneler", systemImage: "list.bullet.rectangle") }
                 .tag(0)
 
-            // MARK: Tab 2 — Harita
             PharmacyMapView(viewModel: pharmacyViewModel)
                 .tabItem { Label("Harita", systemImage: "map.fill") }
                 .tag(1)
 
-            // MARK: Tab 3 — Hızlı Aramalar
             QuickLocationsView(viewModel: pharmacyViewModel, selectedTab: $selectedTab)
                 .tabItem { Label("Hızlı Erişim", systemImage: "bookmark.fill") }
                 .tag(2)
 
-            // MARK: Tab 4 — Profil
             ProfileView()
                 .tabItem { Label("Profil", systemImage: "person.fill") }
                 .tag(3)
@@ -47,7 +43,7 @@ struct ProfileView: View {
     var body: some View {
         NavigationStack {
             List {
-                // Kullanıcı Bilgisi
+                // User info section
                 Section {
                     HStack(spacing: 14) {
                         ZStack {
@@ -70,7 +66,7 @@ struct ProfileView: View {
                     .padding(.vertical, 4)
                 }
 
-                // Uygulama
+                // App info
                 Section("Uygulama") {
                     Label("Eczanem v1.0", systemImage: "cross.case.fill")
                         .foregroundColor(Color("AppGreen"))
@@ -79,7 +75,7 @@ struct ProfileView: View {
                     }
                 }
 
-                // Çıkış
+                // Sign out
                 Section {
                     Button(role: .destructive) {
                         showSignOutAlert = true

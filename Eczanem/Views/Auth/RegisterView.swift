@@ -16,7 +16,7 @@ struct RegisterView: View {
             ScrollView {
                 VStack(spacing: 20) {
 
-                    // Başlık
+                    // Header
                     VStack(spacing: 6) {
                         Image(systemName: "person.badge.plus")
                             .font(.system(size: 48))
@@ -26,7 +26,7 @@ struct RegisterView: View {
                     }
                     .padding(.top, 20)
 
-                    // Alanlar
+                    // Input fields
                     VStack(spacing: 12) {
                         EczaTextField(title: "E-posta", text: $email,
                                       icon: "envelope", keyboardType: .emailAddress)
@@ -36,7 +36,7 @@ struct RegisterView: View {
                         EczaSecureField(title: "Şifre Tekrar", text: $confirmPassword, icon: "lock.fill")
                     }
 
-                    // Hata
+                    // Validation error
                     if let error = authViewModel.errorMessage {
                         Text(error)
                             .font(.caption)

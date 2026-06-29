@@ -1,26 +1,25 @@
 import Foundation
 
 // MARK: - PharmacyService
-/// CollectAPI üzerinden nöbetçi eczane verisi çeker.
-/// Dökümantasyon: https://collectapi.com/api/health/pharmaciesApi
+// Fetches on-duty pharmacy data from CollectAPI.
+// Reference: https://collectapi.com/api/health/pharmaciesApi
 
 final class PharmacyService {
 
-    // MARK: Singleton değil — dışarıdan init edilir
     static let shared = PharmacyService()
     private init() {}
 
-    // MARK: - Sabitler
+    // MARK: - Constants
 
     private let baseURL = "https://api.collectapi.com/health"
 
-    /// API anahtarını Info.plist'ten okur — hardcode yapmıyoruz
+    /// Reads the API key from Info.plist — never hardcoded.
     private var apiKey: String {
         guard let key = Bundle.main.object(forInfoDictionaryKey: "COLLECT_API_KEY") as? String,
               !key.isEmpty,
-              key != "BURAYA_API_KEYINI_YAPISTIR"
+              key != "YOUR_COLLECTAPI_KEY_HERE"
         else {
-            assertionFailure("⛔ COLLECT_API_KEY Info.plist içinde tanımlanmamış!")
+            assertionFailure("⛔ COLLECT_API_KEY is not set in Info.plist")
             return ""
         }
         return key
@@ -33,15 +32,13 @@ final class PharmacyService {
         ]
     }
 
-    // MARK: - Nöbetçi Eczane Çekme
+    // MARK: - Fetch On-Duty Pharmacies
 
-    /// Belirtilen il ve ilçe için bugünkü nöbetçi eczaneleri getirir.
+    /// Returns today's on-duty pharmacies for the given city and optional district.
     /// - Parameters:
-    ///   - city: İl adı (örn: "Ankara")
-    ///   - district: İlçe adı (örn: "Çankaya") — boş bırakılırsa tüm il
-    /// - Returns: Pharmacy dizisi
+    ///   - city: Province name (e.g. "Ankara")
+    ///   - district: District name — omit or pass empty string for the whole province
     func fetchDutyPharmacies(city: String, district: String = "") async throws -> [Pharmacy] {
-        // 1. URL oluştur
         var components = URLComponents(string: "\(baseURL)/dutyPharmacy")
         components?.queryItems = [
             URLQueryItem(name: "il", value: city),
@@ -52,12 +49,10 @@ final class PharmacyService {
             throw PharmacyError.invalidURL
         }
 
-        // 2. Request oluştur
         var request = URLRequest(url: url)
         request.timeoutInterval = 15
         defaultHeaders.forEach { request.setValue($1, forHTTPHeaderField: $0) }
 
-        // 3. İstek at (async/await)
         let data: Data
         let response: URLResponse
         do {
@@ -66,12 +61,10 @@ final class PharmacyService {
             throw PharmacyError.networkError(error)
         }
 
-        // 4. HTTP status code kontrol
         if let http = response as? HTTPURLResponse, !(200...299).contains(http.statusCode) {
             throw PharmacyError.invalidResponse(http.statusCode)
         }
 
-        // 5. JSON Decode
         do {
             let decoded = try JSONDecoder().decode(PharmacyResponse.self, from: data)
             guard decoded.success else { throw PharmacyError.apiFailure }
@@ -83,11 +76,9 @@ final class PharmacyService {
         }
     }
 
-    // MARK: - İlçe Listesi Çekme
+    // MARK: - Fetch Districts
 
-    /// Bir ile ait ilçe listesini getirir.
-    /// - Parameter city: İl adı
-    /// - Returns: İlçe adları dizisi
+    /// Returns the list of districts for the given province.
     func fetchDistricts(city: String) async throws -> [String] {
         var components = URLComponents(string: "\(baseURL)/districtList")
         components?.queryItems = [

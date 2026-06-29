@@ -2,7 +2,7 @@ import SwiftUI
 import MapKit
 
 // MARK: - PharmacyMapView
-/// iOS 16 uyumlu MapKit görünümü — Map(coordinateRegion:annotationItems:)
+// MapKit view using Map(coordinateRegion:annotationItems:) — iOS 16 compatible.
 
 struct PharmacyMapView: View {
 
@@ -10,11 +10,11 @@ struct PharmacyMapView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @State private var selectedPharmacy: Pharmacy?
     @State private var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 41.015, longitude: 28.979), // İstanbul
+        center: CLLocationCoordinate2D(latitude: 41.015, longitude: 28.979), // Istanbul default
         span: MKCoordinateSpan(latitudeDelta: 0.15, longitudeDelta: 0.15)
     )
 
-    // Sadece koordinatı olan eczaneleri göster
+    // Only show pharmacies that have valid coordinates
     private var mappablePharmacies: [Pharmacy] {
         viewModel.filteredPharmacies.filter { $0.coordinate != nil }
     }
@@ -22,7 +22,7 @@ struct PharmacyMapView: View {
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {
-                // MARK: Harita
+                // MARK: Map
                 Map(coordinateRegion: $region,
                     showsUserLocation: true,
                     annotationItems: mappablePharmacies) { pharmacy in
@@ -32,7 +32,7 @@ struct PharmacyMapView: View {
                 }
                 .ignoresSafeArea(edges: .bottom)
 
-                // MARK: Seçili Eczane Kartı
+                // MARK: Selected pharmacy detail card
                 if let selected = selectedPharmacy {
                     PharmacyDetailCard(
                         pharmacy: selected,
@@ -44,7 +44,7 @@ struct PharmacyMapView: View {
                     .padding(.bottom, 24)
                 }
 
-                // MARK: Veri yoksa bilgi kutusu
+                // MARK: Loading indicator
                 if viewModel.isLoading {
                     ProgressView("Yükleniyor...")
                         .padding()
@@ -62,7 +62,7 @@ struct PharmacyMapView: View {
         }
     }
 
-    // MARK: - Pin Görünümü
+    // MARK: - Pin View
 
     private func pharmacyPin(_ pharmacy: Pharmacy) -> some View {
         Button {
@@ -84,7 +84,7 @@ struct PharmacyMapView: View {
                         .font(.system(size: 16, weight: .bold))
                         .foregroundColor(.white)
                 }
-                // Küçük üçgen
+                // Small triangle pointer
                 Image(systemName: "arrowtriangle.down.fill")
                     .font(.system(size: 8))
                     .foregroundColor(Color("AppGreen"))
@@ -96,7 +96,7 @@ struct PharmacyMapView: View {
         .animation(.spring(response: 0.3), value: selectedPharmacy?.id)
     }
 
-    // MARK: - Haritayı Eczanelere Ortala
+    // MARK: - Center Map on Pharmacies
 
     private func centerMapOnPharmacies(_ pharmacies: [Pharmacy]) {
         let coords = pharmacies.compactMap { $0.coordinate }
@@ -119,7 +119,7 @@ struct PharmacyMapView: View {
     }
 }
 
-// MARK: - Seçili Eczane Kartı
+// MARK: - Detail Card (map selection overlay)
 
 struct PharmacyDetailCard: View {
 
@@ -157,7 +157,7 @@ struct PharmacyDetailCard: View {
                 .foregroundColor(.secondary)
 
             HStack(spacing: 10) {
-                // Telefon — confirmationDialog ile "Ara" seçeneği
+                // Phone call with confirmation dialog
                 Button {
                     if isPhoneValid { showCallConfirm = true }
                 } label: {
@@ -175,7 +175,7 @@ struct PharmacyDetailCard: View {
                 .buttonStyle(.borderless)
                 .disabled(!isPhoneValid)
 
-                // Yol Tarifi — Apple Maps
+                // Directions via Apple Maps
                 Button {
                     if let coord = pharmacy.coordinate {
                         let lat = String(format: "%.6f", coord.latitude)

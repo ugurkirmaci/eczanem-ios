@@ -7,8 +7,7 @@ import GoogleSignIn
 import UIKit
 
 // MARK: - AuthViewModel
-/// Firebase Authentication işlemlerini yönetir.
-/// iOS 16 uyumlu: ObservableObject + @Published
+// Manages Firebase Authentication state and all sign-in flows.
 
 final class AuthViewModel: ObservableObject {
 
@@ -17,15 +16,15 @@ final class AuthViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var isAuthenticated = false
 
-    // Apple Sign In için nonce
+    // Nonce storage for Apple Sign In
     private var currentNonce: String?
 
     init() {
-        // Uygulama açılışında oturum durumunu kontrol et
+        // Restore session on app launch
         currentUser = Auth.auth().currentUser
         isAuthenticated = currentUser != nil
 
-        // Oturum değişikliklerini dinle
+        // Listen for auth state changes
         Auth.auth().addStateDidChangeListener { [weak self] _, user in
             DispatchQueue.main.async {
                 self?.currentUser = user
@@ -34,7 +33,7 @@ final class AuthViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Email / Şifre ile Giriş
+    // MARK: - Email / Password Sign In
 
     func signIn(email: String, password: String) async {
         guard validateEmail(email), validatePassword(password) else { return }
@@ -44,11 +43,11 @@ final class AuthViewModel: ObservableObject {
             try await Auth.auth().signIn(withEmail: email, password: password)
             await setLoading(false)
         } catch {
-            await setError(turkishFirebaseError(error))
+            await setError(localizedFirebaseError(error))
         }
     }
 
-    // MARK: - Kayıt
+    // MARK: - Registration
 
     func register(email: String, password: String, confirmPassword: String) async {
         guard validateEmail(email) else { return }
@@ -70,11 +69,11 @@ final class AuthViewModel: ObservableObject {
             try await Auth.auth().createUser(withEmail: email, password: password)
             await setLoading(false)
         } catch {
-            await setError(turkishFirebaseError(error))
+            await setError(localizedFirebaseError(error))
         }
     }
 
-    // MARK: - Şifremi Unuttum
+    // MARK: - Password Reset
 
     func sendPasswordReset(email: String) async -> Bool {
         guard validateEmail(email) else { return false }
@@ -84,12 +83,12 @@ final class AuthViewModel: ObservableObject {
             await setLoading(false)
             return true
         } catch {
-            await setError(turkishFirebaseError(error))
+            await setError(localizedFirebaseError(error))
             return false
         }
     }
 
-    // MARK: - Çıkış
+    // MARK: - Sign Out
 
     func signOut() {
         do {
@@ -115,7 +114,7 @@ final class AuthViewModel: ObservableObject {
         await setLoading(true)
 
         do {
-            // UIWindowScene'e MainActor üzerinden eriş
+            // Access the key window via MainActor
             let rootVC = await MainActor.run { () -> UIViewController? in
                 UIApplication.shared.connectedScenes
                     .compactMap { $0 as? UIWindowScene }
@@ -142,7 +141,7 @@ final class AuthViewModel: ObservableObject {
             try await Auth.auth().signIn(with: credential)
             await setLoading(false)
         } catch {
-            // Kullanıcı iptal ettiyse sessizce kapat
+            // User cancelled — clear loading state silently
             let nsError = error as NSError
             if nsError.code == GIDSignInError.canceled.rawValue {
                 await setLoading(false)
@@ -152,7 +151,7 @@ final class AuthViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Apple Sign In — Nonce Hazırlama
+    // MARK: - Apple Sign In — Nonce Preparation
 
     func prepareAppleSignIn() -> String {
         let nonce = randomNonceString()
@@ -160,7 +159,7 @@ final class AuthViewModel: ObservableObject {
         return sha256(nonce)
     }
 
-    // MARK: - Apple Sign In — Credential ile Firebase girişi
+    // MARK: - Apple Sign In — Firebase credential sign-in
 
     func signInWithApple(credential: ASAuthorizationAppleIDCredential) async {
         guard let nonce = currentNonce,
@@ -182,7 +181,7 @@ final class AuthViewModel: ObservableObject {
             try await Auth.auth().signIn(with: firebaseCredential)
             await setLoading(false)
         } catch {
-            await setError(turkishFirebaseError(error))
+            await setError(localizedFirebaseError(error))
         }
     }
 
@@ -210,27 +209,19 @@ final class AuthViewModel: ObservableObject {
         return true
     }
 
-    // MARK: - Firebase Hata Mesajlarını Türkçeleştir
+    // MARK: - Firebase Error Localization
 
-    private func turkishFirebaseError(_ error: Error) -> String {
+    private func localizedFirebaseError(_ error: Error) -> String {
         let code = AuthErrorCode(_bridgedNSError: error as NSError)
         switch code?.code {
-        case .wrongPassword:
-            return "Şifre hatalı. Lütfen tekrar deneyin."
-        case .userNotFound:
-            return "Bu e-posta ile kayıtlı hesap bulunamadı."
-        case .emailAlreadyInUse:
-            return "Bu e-posta adresi zaten kullanılıyor."
-        case .invalidEmail:
-            return "Geçersiz e-posta adresi."
-        case .weakPassword:
-            return "Şifre çok zayıf. En az 6 karakter kullanın."
-        case .networkError:
-            return "İnternet bağlantınızı kontrol edin."
-        case .tooManyRequests:
-            return "Çok fazla deneme yapıldı. Lütfen bekleyin."
-        default:
-            return error.localizedDescription
+        case .wrongPassword:        return "Şifre hatalı. Lütfen tekrar deneyin."
+        case .userNotFound:         return "Bu e-posta ile kayıtlı hesap bulunamadı."
+        case .emailAlreadyInUse:    return "Bu e-posta adresi zaten kullanılıyor."
+        case .invalidEmail:         return "Geçersiz e-posta adresi."
+        case .weakPassword:         return "Şifre çok zayıf. En az 6 karakter kullanın."
+        case .networkError:         return "İnternet bağlantınızı kontrol edin."
+        case .tooManyRequests:      return "Çok fazla deneme yapıldı. Lütfen bekleyin."
+        default:                    return error.localizedDescription
         }
     }
 
@@ -248,14 +239,14 @@ final class AuthViewModel: ObservableObject {
         isLoading = false
     }
 
-    // MARK: - Nonce Utilities (Apple Sign In için zorunlu)
+    // MARK: - Nonce Utilities (required for Apple Sign In)
 
     private func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)
         var randomBytes = [UInt8](repeating: 0, count: length)
         let errorCode = SecRandomCopyBytes(kSecRandomDefault, randomBytes.count, &randomBytes)
         if errorCode != errSecSuccess {
-            fatalError("Nonce üretilemedi: \(errorCode)")
+            fatalError("Failed to generate nonce: \(errorCode)")
         }
         let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
         return String(randomBytes.map { byte in charset[Int(byte) % charset.count] })

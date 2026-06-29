@@ -1,23 +1,24 @@
 import SwiftUI
 
 // MARK: - PharmacyRowView
+// A card-style row showing pharmacy details with slide-in animation,
+// nearest badge, distance label, phone call, directions, and share actions.
 
 struct PharmacyRowView: View {
 
     let pharmacy: Pharmacy
     let userID: String
-    var isNearest: Bool = false        // GPS ile bulunan en yakın eczane
-    var distanceText: String? = nil    // "1.2 km" veya "350 m"
-
+    var isNearest: Bool = false        // true for the GPS-closest pharmacy
+    var distanceText: String? = nil    // e.g. "1.2 km" or "350 m"
 
     @State private var showCallConfirm = false
-    @State private var isVisible = false      // slide-in animasyonu
-    @State private var pulse = false          // "En Yakın" nabız efekti
+    @State private var isVisible = false      // drives slide-in animation
+    @State private var pulse = false          // drives nearest badge pulse
 
     private var cleanPhone: String { pharmacy.phone.filter { $0.isNumber } }
     private var isPhoneValid: Bool { cleanPhone.count >= 7 }
 
-    // iOS 16 ShareLink için paylaşım metni
+    // Share sheet content
     private var shareText: String {
         var lines = ["🏥 \(pharmacy.name)"]
         lines.append("📍 \(pharmacy.address)")
@@ -27,16 +28,16 @@ struct PharmacyRowView: View {
             let lng = String(format: "%.6f", coord.longitude)
             lines.append("🗺️ maps://?daddr=\(lat),\(lng)&dirflg=d")
         }
-        lines.append("\n— Eczanem Uygulaması ile paylaşıldı")
+        lines.append("\n— Shared via Eczanem")
         return lines.joined(separator: "\n")
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
 
-            // MARK: Üst kısım
+            // MARK: Top row
             HStack(alignment: .top) {
-                // İkon
+                // Icon
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color("AppGreen").opacity(isNearest ? 0.22 : 0.12))
@@ -46,7 +47,7 @@ struct PharmacyRowView: View {
                         .scaleEffect(isNearest ? 1.1 : 1.0)
                 }
 
-                // Bilgiler
+                // Info
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 6) {
                         Text(pharmacy.name)
@@ -54,7 +55,7 @@ struct PharmacyRowView: View {
                             .lineLimit(1)
                             .minimumScaleFactor(0.85)
 
-                        // "En Yakın" rozeti — nabız etkisi
+                        // Nearest badge with pulse animation
                         if isNearest {
                             Text("EN YAKIN")
                                 .font(.system(size: 9, weight: .bold))
@@ -79,7 +80,7 @@ struct PharmacyRowView: View {
                             .foregroundColor(Color("AppGreen"))
                             .fontWeight(.medium)
 
-                        // Mesafe etiketi
+                        // Distance label
                         if let dist = distanceText {
                             Text("· \(dist)")
                                 .font(.caption)
@@ -95,7 +96,7 @@ struct PharmacyRowView: View {
 
                 Spacer()
 
-                // Paylaş
+                // Share button
                 ShareLink(item: shareText) {
                     Image(systemName: "square.and.arrow.up")
                         .foregroundColor(.secondary)
@@ -106,9 +107,9 @@ struct PharmacyRowView: View {
             }
             .padding(12)
 
-            // MARK: Alt — Eylemler
+            // MARK: Bottom action bar
             HStack(spacing: 0) {
-                // Telefon
+                // Phone call
                 Button { if isPhoneValid { showCallConfirm = true } } label: {
                     Label(
                         isPhoneValid ? pharmacy.phone : "Numara Yok",
@@ -128,7 +129,7 @@ struct PharmacyRowView: View {
 
                 Divider().frame(height: 36)
 
-                // Yol Tarifi
+                // Directions
                 Button { openDirections() } label: {
                     Label("Yol Tarifi", systemImage: "arrow.triangle.turn.up.right.diamond.fill")
                         .font(.caption)
@@ -147,7 +148,7 @@ struct PharmacyRowView: View {
         .cornerRadius(14)
         .shadow(color: isNearest ? Color("AppGreen").opacity(0.18) : .black.opacity(0.06),
                 radius: isNearest ? 8 : 4, x: 0, y: 2)
-        // Slide-in animasyon
+        // Slide-in spring animation on appear
         .opacity(isVisible ? 1 : 0)
         .offset(y: isVisible ? 0 : 18)
         .onAppear {
@@ -165,7 +166,7 @@ struct PharmacyRowView: View {
         }
     }
 
-    // MARK: - Yol Tarifi
+    // MARK: - Directions
 
     private func openDirections() {
         if let coord = pharmacy.coordinate {
@@ -179,7 +180,4 @@ struct PharmacyRowView: View {
             .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         if let url = URL(string: "maps://?q=\(query)") { UIApplication.shared.open(url) }
     }
-
-
 }
-

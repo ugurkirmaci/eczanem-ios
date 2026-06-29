@@ -3,8 +3,8 @@ import Combine
 import CoreLocation
 
 // MARK: - PharmacyViewModel
-/// Eczane listesi, il/ilçe seçimi ve arama işlemlerini yönetir.
-/// iOS 16 uyumlu: ObservableObject + @Published
+// Manages the pharmacy list, city/district selection, search filtering,
+// distance sorting, and response caching.
 
 final class PharmacyViewModel: ObservableObject {
 
@@ -18,7 +18,7 @@ final class PharmacyViewModel: ObservableObject {
     @Published var selectedDistrict = ""
     @Published var availableDistricts: [String] = []
     @Published var searchText = ""
-    @Published var userLocation: CLLocation?   // GPS konumu — mesafe sıralama için
+    @Published var userLocation: CLLocation?   // raw GPS position for distance sorting
 
     // MARK: - Private
 
@@ -26,14 +26,14 @@ final class PharmacyViewModel: ObservableObject {
     private let locationService = LocationService()
     private var cancellables = Set<AnyCancellable>()
 
-    // MARK: - Önbellek (rate limit koruması)
+    // MARK: - Cache (rate limit protection)
     private var cacheCity = ""
     private var cacheDistrict = ""
     private var cacheTime: Date = .distantPast
-    private let cacheTTL: TimeInterval = 300 // 5 dakika
+    private let cacheTTL: TimeInterval = 300 // 5 minutes
 
     init() {
-        // searchText değişince filtreleme yap
+        // Re-filter whenever search text or pharmacy list changes
         $searchText
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
             .combineLatest($pharmacies)
@@ -48,38 +48,38 @@ final class PharmacyViewModel: ObservableObject {
             .assign(to: &$filteredPharmacies)
     }
 
-    // MARK: - Mesafe Hesabı
+    // MARK: - Distance Calculation
 
-    /// Kullanıcıdan eczaneye km cinsinden mesafe
+    /// Straight-line distance in kilometres from the user to a pharmacy.
     func distanceKm(to pharmacy: Pharmacy) -> Double? {
         guard let userLocation, let coord = pharmacy.coordinate else { return nil }
         let dest = CLLocation(latitude: coord.latitude, longitude: coord.longitude)
         return userLocation.distance(from: dest) / 1000.0
     }
 
-    /// Mesafeyi okunabilir stringe çevirir ("1.2 km" / "350 m")
+    /// Human-readable distance string — "1.2 km" or "350 m".
     func distanceText(for pharmacy: Pharmacy) -> String? {
         guard let km = distanceKm(to: pharmacy) else { return nil }
         return km < 1 ? String(format: "%.0f m", km * 1000) : String(format: "%.1f km", km)
     }
 
-    /// Kullanıcıya en yakın eczane
+    /// The nearest pharmacy — first item in the filtered list.
     var nearestPharmacy: Pharmacy? { filteredPharmacies.first }
 
-    // MARK: - İl Değişince Çağrılan
+    // MARK: - City Change
 
     func cityDidChange() {
         selectedDistrict = ""
         availableDistricts = []
-        cacheTime = .distantPast // şehir değişince önbelleği sıfırla
+        cacheTime = .distantPast // invalidate cache when city changes
         Task { await loadDistricts() }
     }
 
-    // MARK: - Eczane Yükleme
+    // MARK: - Load Pharmacies
 
     @MainActor
     func loadPharmacies() async {
-        // Aynı il/ilçe yakın zamanda çekildiyse tekrar istek atmıyoruz
+        // Skip network request if same city/district was fetched recently
         let isCacheValid = cacheCity == selectedCity &&
                            cacheDistrict == selectedDistrict &&
                            Date().timeIntervalSince(cacheTime) < cacheTTL
@@ -94,7 +94,7 @@ final class PharmacyViewModel: ObservableObject {
                 city: selectedCity,
                 district: selectedDistrict
             )
-            // Konum varsa mesafeye göre sırala, yoksa API sırası
+            // Sort by distance when GPS is available, otherwise preserve API order
             if let loc = userLocation {
                 pharmacies = result.sorted {
                     let d1 = distanceKmStatic(from: loc, to: $0) ?? .infinity
@@ -105,7 +105,7 @@ final class PharmacyViewModel: ObservableObject {
                 pharmacies = result
             }
             filteredPharmacies = pharmacies
-            // Önbelleği güncelle
+            // Update cache
             cacheCity = selectedCity
             cacheDistrict = selectedDistrict
             cacheTime = Date()
@@ -122,7 +122,7 @@ final class PharmacyViewModel: ObservableObject {
         return loc.distance(from: CLLocation(latitude: coord.latitude, longitude: coord.longitude)) / 1000
     }
 
-    // MARK: - İlçe Yükleme
+    // MARK: - Load Districts
 
     @MainActor
     func loadDistricts() async {
@@ -135,7 +135,7 @@ final class PharmacyViewModel: ObservableObject {
         }
     }
 
-    // MARK: - GPS Konumuyla Otomatik Yükleme
+    // MARK: - GPS-based Auto Load
 
     func loadWithUserLocation() {
         Task {
@@ -147,7 +147,7 @@ final class PharmacyViewModel: ObservableObject {
                 if let district = locationService.currentDistrict, !district.isEmpty {
                     self.selectedDistrict = district
                 }
-                // Ham konumu kaydet — mesafe sıralaması için
+                // Store raw location for distance sorting
                 self.userLocation = locationService.currentLocation
             }
             await loadPharmacies()
