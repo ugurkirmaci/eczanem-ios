@@ -1,11 +1,11 @@
 # ================================================================
-# 🔐 SENSITIVE — Bu dosyalar asla commit edilmez
+# 🔐 SENSITIVE — Never commit these files
 # ================================================================
 
-# Firebase yapılandırması (API key, client ID, project ID içerir)
+# Firebase config (contains API key, client ID, project ID)
 Eczanem/GoogleService-Info.plist
 
-# Gizli yapılandırma (CollectAPI key içerir)
+# Secret configuration (contains CollectAPI key)
 Configurations/Secrets.xcconfig
 
 
@@ -29,7 +29,7 @@ xcuserdata/
 *.xcscmblueprint
 *.xcscheme
 
-# Derived Data ve Archiveler
+# Derived Data and Archives
 DerivedData/
 *.hmap
 *.ipa
@@ -49,7 +49,7 @@ DerivedData/
 
 
 # ================================================================
-# CocoaPods (kullanılmıyor, yine de)
+# CocoaPods (not used, included for completeness)
 # ================================================================
 
 Pods/
