@@ -44,7 +44,7 @@ struct RegisterView: View {
                             .multilineTextAlignment(.center)
                     }
 
-                    // Kayıt Butonu
+                    // Register button
                     Button {
                         Task {
                             await authViewModel.register(
