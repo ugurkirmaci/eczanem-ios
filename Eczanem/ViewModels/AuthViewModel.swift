@@ -115,11 +115,9 @@ final class AuthViewModel: ObservableObject {
         await setLoading(true)
 
         do {
-            // Already on MainActor — access key window directly
-            let rootVC = UIApplication.shared.connectedScenes
-                .compactMap { $0 as? UIWindowScene }
-                .flatMap { $0.windows }
-                .first { $0.isKeyWindow }?
+            // Use UIWindowScene.keyWindow (iOS 15+) — safe on MainActor
+            let rootVC = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?
+                .keyWindow?
                 .rootViewController
 
             guard let rootVC else {
@@ -127,7 +125,11 @@ final class AuthViewModel: ObservableObject {
                 return
             }
 
-            let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: rootVC)
+            // Force GIDSignIn onto the MainActor so its internal UIKit access
+            // (UIView.window, UIViewController.view) stays on the main thread.
+            let result = try await Task { @MainActor in
+                try await GIDSignIn.sharedInstance.signIn(withPresenting: rootVC)
+            }.value
             guard let idToken = result.user.idToken?.tokenString else {
                 await setError("Google kimlik doğrulaması başarısız.")
                 return
