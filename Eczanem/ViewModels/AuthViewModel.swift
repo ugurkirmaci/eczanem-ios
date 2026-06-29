@@ -105,14 +105,14 @@ final class AuthViewModel: ObservableObject {
     @MainActor
     func signInWithGoogle() async {
         guard let clientID = FirebaseApp.app()?.options.clientID else {
-            await setError("Google yapılandırması bulunamadı.")
+            setError("Google yapılandırması bulunamadı.")
             return
         }
 
         let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.configuration = config
 
-        await setLoading(true)
+        setLoading(true)
 
         do {
             // Use UIWindowScene.keyWindow (iOS 15+) — safe on MainActor
@@ -121,7 +121,7 @@ final class AuthViewModel: ObservableObject {
                 .rootViewController
 
             guard let rootVC else {
-                await setError("Ekran açılamadı. Tekrar deneyin.")
+                setError("Ekran açılamadı. Tekrar deneyin.")
                 return
             }
 
@@ -131,7 +131,7 @@ final class AuthViewModel: ObservableObject {
                 try await GIDSignIn.sharedInstance.signIn(withPresenting: rootVC)
             }.value
             guard let idToken = result.user.idToken?.tokenString else {
-                await setError("Google kimlik doğrulaması başarısız.")
+                setError("Google kimlik doğrulaması başarısız.")
                 return
             }
 
@@ -140,14 +140,14 @@ final class AuthViewModel: ObservableObject {
                 accessToken: result.user.accessToken.tokenString
             )
             try await Auth.auth().signIn(with: credential)
-            await setLoading(false)
+            setLoading(false)
         } catch {
             // User cancelled — clear loading state silently
             let nsError = error as NSError
             if nsError.code == GIDSignInError.canceled.rawValue {
-                await setLoading(false)
+                setLoading(false)
             } else {
-                await setError("Google ile giriş başarısız: \(error.localizedDescription)")
+                setError("Google ile giriş başarısız: \(error.localizedDescription)")
             }
         }
     }
