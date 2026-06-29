@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="docs/screenshots/list.png" width="120" alt="Eczanem App Icon" />
+  <img src="docs/screenshots/list.png" width="120" alt="Eczanem App" />
 </p>
 
 <h1 align="center">Eczanem 💊</h1>
 
 <p align="center">
-  Türkiye'deki nöbetçi eczaneleri anında bulun — GPS destekli, hızlı ve güvenilir.
+  Find on-duty pharmacies across Turkey instantly — GPS-powered, fast and reliable.
 </p>
 
 <p align="center">
@@ -18,7 +18,7 @@
 
 ---
 
-## 📱 Ekran Görüntüleri
+## 📱 Screenshots
 
 <p align="center">
   <img src="docs/screenshots/login.png" width="180" alt="Login" />
@@ -30,175 +30,177 @@
 
 ---
 
-## ✨ Özellikler
+## ✨ Features
 
-| Özellik | Detay |
+| Feature | Description |
 |---|---|
-| 📍 **GPS ile Otomatik Konum** | Telefon konumunu alarak ilini/ilçeni otomatik saptar |
-| 🏥 **En Yakın Eczane** | GPS aktifken eczaneler mesafeye göre sıralanır, en yakına "EN YAKIN" rozeti verilir |
-| 🗺️ **Harita Görünümü** | Tüm nöbetçi eczaneleri haritada pinler üzerinde gösterir |
-| 📞 **Arama** | Tek tuşla eczaneyi ara (onay dialogu ile) |
-| 🧭 **Yol Tarifi** | Apple Maps üzerinden sürüş yönlendirmesi |
-| ⚡ **Hızlı Erişim** | Sık ziyaret ettiğin şehirleri kaydet, tek tuşla yükle |
-| 🔍 **Arama & Filtreleme** | İsme veya adrese göre filtrele |
-| 🔐 **Güvenli Giriş** | E-posta, Apple Sign In ve Google Sign In |
-| 🌙 **Dark Mode** | Tam iOS Dark Mode desteği |
-| 📤 **Paylaşım** | Eczane bilgilerini arkadaşınla paylaş |
+| 📍 **GPS Auto-Location** | Detects your province and district automatically |
+| 🏥 **Nearest Pharmacy** | Sorts by distance when GPS is active, badges the closest with "NEAREST" |
+| 🗺️ **Map View** | All on-duty pharmacies shown as pins on a live map |
+| 📞 **One-tap Call** | Call a pharmacy with a confirmation dialog |
+| 🧭 **Directions** | Turn-by-turn driving directions via Apple Maps |
+| ⚡ **Quick Access** | Save favourite cities, load their pharmacies in one tap |
+| 🔍 **Search & Filter** | Filter by name, address or district |
+| 🔐 **Secure Auth** | Email, Apple Sign In and Google Sign In via Firebase |
+| 🌙 **Dark Mode** | Full iOS Dark Mode support |
+| 📤 **Share** | Share pharmacy details with friends |
 
 ---
 
-## 🏗️ Mimari
+## 🏗️ Architecture
 
 ```
 Eczanem/
 ├── App/
-│   └── EczanemApp.swift          # @main, Firebase başlatma, Google URL handler
+│   └── EczanemApp.swift              # @main entry, AppDelegate, Firebase init
 ├── Models/
-│   ├── Pharmacy.swift            # Eczane veri modeli
-│   └── AppErrors.swift           # Hata türleri (Türkçe açıklamalar)
+│   ├── Pharmacy.swift                # Pharmacy data model + province list
+│   └── AppErrors.swift               # Typed error enums
 ├── Services/
-│   ├── PharmacyService.swift     # CollectAPI HTTP katmanı
-│   ├── LocationService.swift     # CoreLocation async/await wrapper
-│   └── QuickLocationsService.swift # UserDefaults kayıtlı konumlar
+│   ├── PharmacyService.swift         # CollectAPI HTTP layer
+│   ├── LocationService.swift         # CoreLocation async/await wrapper
+│   └── QuickLocationsService.swift   # UserDefaults-backed saved locations
 ├── ViewModels/
-│   ├── PharmacyViewModel.swift   # Eczane listesi, önbellek, mesafe sıralama
-│   └── AuthViewModel.swift       # Firebase Auth (Email/Apple/Google)
+│   ├── PharmacyViewModel.swift       # List state, cache, distance sorting
+│   └── AuthViewModel.swift           # Firebase Auth (Email / Apple / Google)
 ├── Views/
-│   ├── Auth/                     # Giriş, Kayıt, Şifremi Unuttum, Splash
-│   ├── Pharmacy/                 # Liste, Harita, Satır bileşeni
-│   ├── QuickLocationsView.swift  # Hızlı Erişim sekmesi
-│   └── MainTabView.swift         # Tab yönetimi
+│   ├── Auth/                         # Login, Register, ForgotPassword, Splash
+│   ├── Pharmacy/                     # List, Map, Row card
+│   ├── QuickLocationsView.swift      # Quick Access tab
+│   └── MainTabView.swift             # Tab bar + ProfileView
 └── Core/
-    └── Persistence/              # Core Data (genişleme için hazır)
+    └── Persistence/                  # Core Data stack (ready for expansion)
 ```
 
 **Pattern:** MVVM + Service Layer  
-**Async:** Swift Concurrency (async/await, CheckedContinuation)  
-**State:** ObservableObject + @Published + Combine  
+**Async:** Swift Concurrency — `async/await`, `CheckedContinuation`  
+**State:** `ObservableObject` + `@Published` + Combine  
 
 ---
 
-## 🛠️ Teknoloji Yığını
+## 🛠️ Tech Stack
 
-- **SwiftUI** — iOS 16+ declarative UI
-- **Firebase Auth** — E-posta, Apple ve Google Sign In
-- **CollectAPI** — Türkiye nöbetçi eczane verisi ([collectapi.com](https://collectapi.com/api/health/pharmaciesApi))
-- **CoreLocation** — GPS konum + reverse geocoding
-- **MapKit** — Harita görünümü
-- **Core Data** — Yerel veri kalıcılığı (genişleme için)
-- **XcodeGen** — Kod tabanlı Xcode proje yönetimi
+| Library | Purpose |
+|---|---|
+| **SwiftUI** | Declarative UI — iOS 16+ |
+| **Firebase Auth 10.29** | Email, Apple and Google Sign In |
+| **CollectAPI** | On-duty pharmacy data for Turkey |
+| **CoreLocation** | GPS fix + reverse geocoding |
+| **MapKit** | Interactive map view |
+| **Core Data** | Local persistence (ready for expansion) |
+| **XcodeGen** | Code-based Xcode project generation |
 
 ---
 
-## ⚙️ Kurulum
+## ⚙️ Setup
 
-### Ön Gereksinimler
+### Prerequisites
 
 - Xcode 15+
-- iOS 16+ cihaz veya simülatör
-- [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`)
-- CollectAPI hesabı ([collectapi.com](https://collectapi.com))
-- Firebase projesi ([console.firebase.google.com](https://console.firebase.google.com))
+- iOS 16+ device or simulator
+- [XcodeGen](https://github.com/yonaskolb/XcodeGen) — `brew install xcodegen`
+- CollectAPI account — [collectapi.com](https://collectapi.com)
+- Firebase project — [console.firebase.google.com](https://console.firebase.google.com)
 
 ---
 
-### 1. Repoyu Klonla
+### 1. Clone the repo
 
 ```bash
-git clone https://github.com/KULLANICI_ADIN/eczanem-ios.git
+git clone https://github.com/ugurkirmaci/eczanem-ios.git
 cd eczanem-ios
 ```
 
-### 2. Gizli Yapılandırmaları Ayarla
+### 2. Add secret configuration
 
-**CollectAPI anahtarı:**
+**CollectAPI key:**
 
 ```bash
 cp Configurations/Secrets.xcconfig.example Configurations/Secrets.xcconfig
 ```
 
-`Configurations/Secrets.xcconfig` dosyasını aç ve kendi API anahtarını gir:
+Open `Configurations/Secrets.xcconfig` and fill in your key:
 
 ```
-COLLECT_API_KEY = BURAYA_KENDI_COLLECTAPI_KEYINI_YAZ
+COLLECT_API_KEY = YOUR_COLLECTAPI_KEY_HERE
 ```
 
-**Firebase yapılandırması:**
+**Firebase configuration:**
 
 ```bash
 cp Eczanem/GoogleService-Info.plist.example Eczanem/GoogleService-Info.plist
 ```
 
-Firebase Console'dan indirdiğin `GoogleService-Info.plist` dosyasıyla değiştir.
+Replace the file with the real `GoogleService-Info.plist` downloaded from your Firebase project.
 
-> Firebase Console → Project Settings → İOS uygulaması → GoogleService-Info.plist indir
+> Firebase Console → Project Settings → iOS app → Download GoogleService-Info.plist
 
-### 3. Firebase'i Yapılandır
+### 3. Enable Firebase Auth providers
 
-Firebase Console'da şu sağlayıcıları etkinleştir:
-- Authentication → **E-posta/Şifre** ✓
-- Authentication → **Apple** ✓
-- Authentication → **Google** ✓
+In Firebase Console → Authentication → Sign-in method, enable:
+- **Email / Password** ✓
+- **Apple** ✓
+- **Google** ✓
 
-### 4. Xcode Projesini Oluştur
+### 4. Generate the Xcode project
 
 ```bash
 xcodegen generate
 ```
 
-### 5. Projeyi Aç ve Çalıştır
+### 5. Open and run
 
 ```bash
 open Eczanem.xcodeproj
 ```
 
-Xcode'da hedef cihazı seç → **Cmd+R**
+Select a target device in Xcode → **Cmd+R**
 
 ---
 
-## 🔐 Güvenlik
+## 🔐 Security
 
-Bu repo **hiçbir gerçek kimlik bilgisi içermez.**
+This repository contains **no real credentials**.
 
-| Dosya | Durum | Neden |
+| File | Status | Why |
 |---|---|---|
-| `GoogleService-Info.plist` | `.gitignore`'da | Firebase API key ve proje bilgileri |
-| `Configurations/Secrets.xcconfig` | `.gitignore`'da | CollectAPI anahtarı |
-| `Info.plist` | Commit edilmiş ✓ | Sadece `$(COLLECT_API_KEY)` placeholder içerir |
+| `GoogleService-Info.plist` | Gitignored | Contains Firebase API key and project IDs |
+| `Configurations/Secrets.xcconfig` | Gitignored | Contains CollectAPI key |
+| `Info.plist` | Committed ✓ | Only holds `$(COLLECT_API_KEY)` placeholder |
 
-Kendi fork'unu public yapmadan önce `git log` ve `git diff` ile yanlışlıkla commit edilmiş anahtar olmadığını doğrula.
+Before making your own fork public, run `git log -p` to verify no real keys were accidentally committed.
 
 ---
 
 ## 📡 API
 
-Eczane verileri [CollectAPI](https://collectapi.com/api/health/pharmaciesApi) üzerinden çekilir.
+Pharmacy data is sourced from [CollectAPI](https://collectapi.com/api/health/pharmaciesApi).
 
 ```
-GET https://api.collectapi.com/health/dutyPharmacy?il=Ankara&ilce=Çankaya
+GET https://api.collectapi.com/health/dutyPharmacy?il=Ankara&ilce=Cankaya
 Authorization: apikey YOUR_KEY
 ```
 
-**Rate limit notu:** CollectAPI ücretsiz planda istek limiti uygulamaktadır. Uygulama aynı il/ilçe için 5 dakikalık önbellek kullanır.
+**Rate limiting:** CollectAPI enforces request limits on free plans. The app uses a 5-minute cache per city/district to avoid hitting the limit on tab switches.
 
 ---
 
-## 🤝 Katkıda Bulunma
+## 🤝 Contributing
 
-1. Fork'la
-2. Feature branch oluştur: `git checkout -b feature/yeni-ozellik`
-3. Değişikliklerini commit'le: `git commit -m 'feat: yeni özellik ekle'`
-4. Push'la: `git push origin feature/yeni-ozellik`
-5. Pull Request aç
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/my-feature`
+3. Commit your changes: `git commit -m 'feat: add my feature'`
+4. Push: `git push origin feature/my-feature`
+5. Open a Pull Request
 
 ---
 
-## 📄 Lisans
+## 📄 License
 
-MIT License — detaylar için [LICENSE](LICENSE) dosyasına bak.
+MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
 <p align="center">
-  Türkiye'deki tüm hastalar için ❤️ ile yapıldı
+  Made with ❤️ for patients across Turkey
 </p>
